@@ -1,75 +1,66 @@
-import { Text , View , StyleSheet, TouchableOpacity, Alert } from "react-native";
+import { View , StyleSheet, TextInput } from "react-native";
+import { TodoItem } from "./todoItem";
 import { theme } from "./theme";
+import { useState } from "react";
+
 
 export default function HomeScreen() {
 
-    function handlePress(){
-        Alert.alert("Delete todo", "Are you sure you want to delete the todo")
+    const [todo , setTodo] = useState<string>("");
+    const [todoList , setTodoList] =useState<String[]>([]);
+
+    function handleChange(data: string){
+        setTodo(data);
+    }
+
+    function handleSubmit(){
+        console.log("The new TODO is :: ",todo);
+        setTodoList
+        ([
+            ...todoList,
+            todo
+        ]);
+
+        setTodo("");
     }
 
     return(
         <View
-            style={styles.parentContiner}
+            style ={styles.container}
         >
-            <View
-            style={styles.todoContainer}
-        >
-            <Text
-                style = {styles.todoText}
-            >
-                HOME SCREEN 
-                </Text>
-
-                <TouchableOpacity
-                    style={styles.button}
-                    onPress={handlePress}
-                >
-                    <Text
-                        style={styles.buttonText}
-                    >
-                        DELETE TODO 
-                    </Text>
-                </TouchableOpacity>
-        </View>
+            <TextInput 
+                placeholder="Add a todo"
+                style={styles.textInput}
+                keyboardType="default"
+                onChangeText={handleChange}
+                returnKeyType="done"
+                onSubmitEditing={handleSubmit}
+                value = {todo}
+            />
+            {todoList.map((todo, index) => (
+                <TodoItem
+                    key={index}
+                    todoValue={todo}
+                />
+            ))}
         </View>
     )
 }
 
 const styles = StyleSheet.create({
-    
-    parentContiner: {
-        justifyContent: "center",
+    container: {
         backgroundColor: theme.colorWhite,
-        flex: 1
-    },
-    
-    todoContainer : {
-        paddingVertical: 20,
-        paddingHorizontal: 6,
-        borderBottomWidth: 1,
-        borderBottomColor: theme.lightBlue,
-        flexDirection : "row",
-        justifyContent : "space-between",
-        alignItems : "center"
+        justifyContent: "center",
+        flex: 10,
     },
 
-    todoText : {
+    textInput:{
+        borderWidth: 1,
+        borderColor: theme.lightBlue,
+        borderRadius: 50,
+        padding: 10,
+        marginHorizontal: 10,
         fontSize: 20,
-        fontWeight: "bold",
-    },
-
-    button : {
-        borderRadius: 5,
-        padding: 8,
-        backgroundColor: theme.lightRed,
-    },
-
-    buttonText : {
-        color : theme.colorWhite,
-        textAlign : "center",
-        fontWeight : "bold",
-        letterSpacing : 1.2,
-        textTransform : "uppercase"
     }
-})
 
+})

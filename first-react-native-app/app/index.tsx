@@ -1,7 +1,8 @@
-import { View , StyleSheet, TextInput } from "react-native";
+import { ScrollView, StyleSheet , TextInput  } from "react-native";
 import { TodoItem } from "./todoItem";
 import { theme } from "./theme";
 import { useState } from "react";
+
 
 type TodoItem = {
     todoValue : string,
@@ -50,8 +51,15 @@ export default function HomeScreen() {
     }
 
     return(
-        <View
+        <ScrollView
             style ={styles.container}
+            contentContainerStyle = {{  
+                paddingBottom:16,
+                paddingTop: 16,
+                justifyContent: "center",
+                
+            }}
+            stickyHeaderIndices = {[0]} // To fix the text input at the top
         >
             <TextInput 
                 placeholder="Add a todo"
@@ -70,14 +78,13 @@ export default function HomeScreen() {
                     markComplete={() => handleTodoCompletion(index)}
                 />
             ))}
-        </View>
+        </ScrollView>
     )
 }
 
 const styles = StyleSheet.create({
     container: {
         backgroundColor: theme.colorWhite,
-        justifyContent: "center",
         flex: 10,
     },
 

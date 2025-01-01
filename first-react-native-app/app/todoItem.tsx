@@ -4,17 +4,18 @@ import { theme } from "./theme";
 type TodoItemProps = {
     todoValue : String, 
     isCompleted? : boolean // ? --> means optional
+    markComplete : () => void
 }
-export function TodoItem({todoValue , isCompleted } : TodoItemProps) {
+export function TodoItem({todoValue , isCompleted , markComplete } : TodoItemProps) {
 
     function handlePress(){
             Alert.alert(
-                "Delete todo", 
-                "Are you sure you want to delete the todo",
+                "COMPLETED TODO", 
+                `Are you sure you want to mark this TODO as DONE? ${isCompleted ? 'pending' : 'completed'}`,
                 [
                     {
-                        text : "DELETE",
-                        onPress : () => console.log("Delete pressed")
+                        text : "DONE",
+                        onPress : () => markComplete()
                     },
                     {
                         text : "CANCEL",
